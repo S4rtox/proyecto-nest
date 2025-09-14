@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { EmployeesModule } from './employees/employees.module';
+import { ProductsModule } from './products/products.module';
 //Base del prouyecto nest, del framework
 @Module({
-  imports: [EmployeesModule],
+  imports: [EmployeesModule, ProductsModule],
   controllers: [AppController],
   providers: [AppService],
 })
