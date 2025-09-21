@@ -11,7 +11,7 @@ export class ProductsService {
       productName: 'Product 1',
       price: 100,
       countSeal: 10,
-      provider: 'Provider 1',
+      provider: uuid(),
     },
   ];
   create(createProductDto: CreateProductDto) {
