@@ -30,13 +30,7 @@ export class ProductsService {
   }
 
   findByProvider(provider: string) {
-    const products = this.products.filter(
-      (product) => product.provider === provider,
-    );
-    if (products.length === 0) {
-      throw new NotFoundException(`No products found for provider ${provider}`);
-    }
-    return products;
+    // return this.productRepository.findBy({ provider });
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {
@@ -53,6 +47,6 @@ export class ProductsService {
   remove(id: string) {
     this.findOne(id);
     this.productRepository.delete({ productId: id });
-    return `Product with ID ${id} has been removed`;
+    return { message: `Product with ID ${id} has been removed` };
   }
 }
