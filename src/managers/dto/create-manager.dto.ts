@@ -2,6 +2,7 @@ import {
   IsEmail,
   IsNotEmpty,
   IsNumber,
+  IsObject,
   IsOptional,
   IsString,
   IsUUID,
@@ -35,9 +36,11 @@ export class CreateManagerDto extends Manager {
   @MaxLength(20)
   declare managerPhoneNumber: string;
 
+  @IsObject()
   @IsOptional()
   declare location: Location;
 
+  @IsObject()
   @IsOptional()
   declare user: User;
 }

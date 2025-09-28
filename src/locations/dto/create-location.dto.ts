@@ -11,10 +11,10 @@ import {
 import { Type } from 'class-transformer';
 
 export class CreateLocationDto {
-  @IsUUID('4')
+  @IsNumber()
   @IsOptional()
   @MaxLength(50)
-  locationId: string;
+  locationId: number;
 
   @IsString()
   @IsNotEmpty()

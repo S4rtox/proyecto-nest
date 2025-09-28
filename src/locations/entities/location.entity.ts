@@ -13,8 +13,8 @@ import {
 
 @Entity()
 export class Location {
-  @PrimaryGeneratedColumn('uuid')
-  locationId: string;
+  @PrimaryGeneratedColumn('increment')
+  locationId: number;
   @Column({ type: 'text' })
   locationName: string;
   @Column({ type: 'text' })

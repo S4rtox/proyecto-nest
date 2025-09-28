@@ -21,7 +21,7 @@ export class LocationsService {
     return this.locationRepository.find();
   }
 
-  async findOne(id: string): Promise<Location> {
+  async findOne(id: number): Promise<Location> {
     const location = await this.locationRepository.findOne({
       where: { locationId: id },
     });
@@ -32,7 +32,7 @@ export class LocationsService {
   }
 
   async update(
-    id: string,
+    id: number,
     updateLocationDto: UpdateLocationDto,
   ): Promise<Location> {
     const location = await this.locationRepository.preload({
@@ -45,7 +45,7 @@ export class LocationsService {
     return this.locationRepository.save(location);
   }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: number): Promise<void> {
     const result = await this.locationRepository.delete({ locationId: id });
     if (result.affected === 0) {
       throw new NotFoundException(`Location with id "${id}" not found`);

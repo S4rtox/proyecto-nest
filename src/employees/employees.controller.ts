@@ -16,12 +16,28 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { ROLES } from 'src/auth/constants/roles.constants';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Employee } from './entities/employee.entity';
+import { ApiAuth } from 'src/auth/decorators/api.decorator';
 
+@ApiAuth()
+@ApiTags('Employees')
 @Controller('employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 
   @Auth(ROLES.MANAGER)
+  @ApiResponse({
+    status: 201,
+    example: {
+      employeeId: 'uuid',
+      employeeName: 'John',
+      employeeLastName: 'Doe',
+      employeeEmail: 'john.doe@example.com',
+      employeePhoneNumber: '1234567890',
+      employeePhotoUrl: 'http://example.com/photo.jpg',
+    } as Employee,
+  })
   @Post()
   create(@Body() createEmployeeDto: CreateEmployeeDto) {
     return this.employeesService.create(createEmployeeDto);
@@ -53,6 +69,12 @@ export class EmployeesController {
   uploadPhoto(@UploadedFile() file: Express.Multer.File) {
     console.log(file);
     return { message: 'File uploaded successfully' };
+  }
+
+  @Auth(ROLES.MANAGER)
+  @Get(':id/locations')
+  findAllLocations(@Param('id') id: string) {
+    return this.employeesService.findAllLocations(+id);
   }
 
   @Auth(ROLES.MANAGER)
