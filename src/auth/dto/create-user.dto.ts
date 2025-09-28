@@ -20,4 +20,8 @@ export class CreateUserDto extends User {
   @IsString()
   @MinLength(8)
   declare userPassword: string;
+
+  @IsString({ each: true })
+  @IsOptional()
+  declare userRoles: string[];
 }

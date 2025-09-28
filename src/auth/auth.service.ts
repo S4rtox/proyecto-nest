@@ -6,28 +6,35 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { JwtService } from '@nestjs/jwt';
+import { LoginUserDTO } from './dto/login-user.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    private jwtService: JwtService,
   ) {}
   registerUser(createUserDto: CreateUserDto) {
     createUserDto.userPassword = bcrypt.hashSync(createUserDto.userPassword, 5);
     return this.userRepository.save(createUserDto);
   }
 
-  async loginUser(createUserDto: CreateUserDto) {
+  async loginUser(loginUserDto: LoginUserDTO) {
     const user = await this.userRepository.findOneBy({
-      userEmail: createUserDto.userEmail,
+      userEmail: loginUserDto.userEmail,
     });
     if (!user) throw new UnauthorizedException('Credentials dont match');
     const match = await bcrypt.compare(
-      createUserDto.userPassword,
+      loginUserDto.userPassword,
       user.userPassword,
     );
     if (!match) throw new UnauthorizedException('Credentials dont match');
-    const token = jwt.sign(JSON.stringify(user), 'SECRETKEY');
+    const token = this.jwtService.sign({
+      email: user.userEmail,
+      password: user.userPassword,
+      userRoles: user.userRoles,
+    });
     return token;
   }
 }

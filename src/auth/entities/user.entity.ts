@@ -1,3 +1,4 @@
+import { Cipher } from 'crypto';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -10,4 +11,7 @@ export class User {
 
   @Column('text')
   userPassword: string;
+
+  @Column('simple-array', { default: 'Employee' })
+  userRoles: string[];
 }

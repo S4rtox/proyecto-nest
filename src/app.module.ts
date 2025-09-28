@@ -11,6 +11,8 @@ import { ManagersModule } from './managers/managers.module';
 import { LocationsModule } from './locations/locations.module';
 import { RegionsModule } from './regions/regions.module';
 import { AuthModule } from './auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
+import { JWT_EXPIRATION_TIME, JWT_KEY } from './auth/constants/jwt.constants';
 //Base del prouyecto nest, del framework
 @Module({
   imports: [
