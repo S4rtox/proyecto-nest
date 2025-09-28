@@ -7,6 +7,8 @@ import {
   MinLength,
 } from 'class-validator';
 import { User } from '../entities/user.entity';
+import { Manager } from 'src/managers/entities/manager.entity';
+import { Employee } from 'src/employees/entities/employee.entity';
 
 export class CreateUserDto extends User {
   @IsUUID('4')
@@ -24,4 +26,12 @@ export class CreateUserDto extends User {
   @IsString({ each: true })
   @IsOptional()
   declare userRoles: string[];
+
+  @IsOptional()
+  @IsString()
+  declare manager: Manager;
+
+  @IsOptional()
+  @IsString()
+  declare employee: Employee;
 }

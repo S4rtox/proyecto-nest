@@ -8,6 +8,8 @@ import {
   MaxLength,
 } from 'class-validator';
 import { Manager } from '../entities/manager.entity';
+import { Location } from 'src/locations/entities/location.entity';
+import { User } from 'src/auth/entities/user.entity';
 
 export class CreateManagerDto extends Manager {
   @IsUUID('4')
@@ -32,4 +34,10 @@ export class CreateManagerDto extends Manager {
   @IsNotEmpty()
   @MaxLength(20)
   declare managerPhoneNumber: string;
+
+  @IsOptional()
+  declare location: Location;
+
+  @IsOptional()
+  declare user: User;
 }
