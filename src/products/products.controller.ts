@@ -17,28 +17,32 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { ROLES } from 'src/auth/constants/roles.constants';
+import { Auth } from 'src/auth/decorators/auth.decorator';
 
-@UseGuards(AuthGuard)
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
+  @Auth(ROLES.EMPLOYEE, ROLES.MANAGER)
   @Post()
   create(@Body(new ValidationPipe()) createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }
 
-  @UseGuards(AuthGuard)
+  @Auth(ROLES.EMPLOYEE, ROLES.MANAGER)
   @Get()
   findAll() {
     return this.productsService.findAll();
   }
 
+  @Auth(ROLES.EMPLOYEE, ROLES.MANAGER)
   @Get(':id')
   findOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     return this.productsService.findOne(id);
   }
 
+  @Auth(ROLES.EMPLOYEE, ROLES.MANAGER)
   @Get('provider/:provider')
   findByProvider(
     @Param('provider', new ParseUUIDPipe({ version: '4' })) provider: string,
@@ -46,6 +50,7 @@ export class ProductsController {
     return this.productsService.findByProvider(provider);
   }
 
+  @Auth(ROLES.MANAGER)
   @Patch(':id')
   update(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
@@ -54,6 +59,7 @@ export class ProductsController {
     return this.productsService.update(id, updateProductDto);
   }
 
+  @Auth(ROLES.MANAGER)
   @Delete(':id')
   remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     return this.productsService.remove(id);
