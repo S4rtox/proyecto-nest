@@ -33,5 +33,6 @@ export class Location {
   region: Region;
 
   @OneToMany(() => Employee, (employee) => employee.location)
+  @JoinColumn({ name: 'employeeId' })
   employees: Employee[];
 }
