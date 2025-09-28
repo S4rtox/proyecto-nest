@@ -6,19 +6,14 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { ProvidersService } from './providers.service';
 import { CreateProviderDto } from './dto/create-provider.dto';
 import { UpdateProviderDto } from './dto/update-provider.dto';
 import { UserData } from 'src/auth/decorators/user.decorator';
 import { User } from 'src/auth/entities/user.entity';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
-import { Roles } from 'src/auth/decorators/roles.decorator';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Auth } from 'src/auth/decorators/auth.decorator';
 
-@UseGuards(AuthGuard)
 @Controller('providers')
 export class ProvidersController {
   constructor(private readonly providersService: ProvidersService) {}
@@ -28,8 +23,7 @@ export class ProvidersController {
     return this.providersService.create(createProviderDto);
   }
 
-  @Roles(['Admin'])
-  @UseGuards(RolesGuard)
+  @Auth('Emoployee')
   @Get()
   findAll(@UserData() user: User) {
     console.log(user);
